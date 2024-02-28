@@ -6,7 +6,7 @@
 		"age": 31,
 		"isActive": true,
 		"birthDate": "1991-02-20",
-		"imageUrl": "https://example.com/images/languages/python.jpg",
+		"imageUrl": "https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-DenGian/main/assets/images/Python.webp",
 		"genre": "Algemeen doel",
 		"useCases": ["Web Development", "Data Analysis", "Machine Learning"],
 		"relatedLibrary": {
@@ -25,7 +25,7 @@
 		"age": 26,
 		"isActive": true,
 		"birthDate": "1995-12-04",
-		"imageUrl": "https://example.com/images/languages/javascript.jpg",
+		"imageUrl": "https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-DenGian/main/assets/images/Javascript.webp",
 		"genre": "Scripting",
 		"useCases": ["Frontend Development", "Web Applications", "Server-Side Development"],
 		"relatedLibrary": {
@@ -44,7 +44,7 @@
 		"age": 26,
 		"isActive": true,
 		"birthDate": "1995-05-23",
-		"imageUrl": "https://example.com/images/languages/java.jpg",
+		"imageUrl": "https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-DenGian/main/assets/images/Java.webp",
 		"genre": "Algemeen doel",
 		"useCases": ["Enterprise Applications", "Web Development", "Mobile Development"],
 		"relatedLibrary": {
@@ -63,7 +63,7 @@
 		"age": 38,
 		"isActive": true,
 		"birthDate": "1983-01-01",
-		"imageUrl": "https://example.com/images/languages/cpp.jpg",
+		"imageUrl": "https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-DenGian/main/assets/images/C++.webp",
 		"genre": "Algemeen doel",
 		"useCases": ["System Software", "Game Development", "High-Performance Applications"],
 		"relatedLibrary": {
@@ -82,7 +82,7 @@
 		"age": 21,
 		"isActive": true,
 		"birthDate": "2000-01-01",
-		"imageUrl": "https://example.com/images/languages/csharp.jpg",
+		"imageUrl": "https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-DenGian/main/assets/images/C_Sharp.webp",
 		"genre": "Algemeen doel",
 		"useCases": ["Windows Applications", "Web Development", "Game Development"],
 		"relatedLibrary": {
@@ -101,7 +101,7 @@
 		"age": 29,
 		"isActive": true,
 		"birthDate": "1995-02-24",
-		"imageUrl": "https://example.com/images/languages/ruby.jpg",
+		"imageUrl": "https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-DenGian/main/assets/images/Ruby.webp",
 		"genre": "Scripting",
 		"useCases": ["Web Development", "Backend Development", "Prototyping"],
 		"relatedLibrary": {
@@ -120,7 +120,7 @@
 		"age": 13,
 		"isActive": true,
 		"birthDate": "2009-11-10",
-		"imageUrl": "https://example.com/images/languages/go.jpg",
+		"imageUrl": "https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-DenGian/main/assets/images/Go.webp",
 		"genre": "Algemeen doel",
 		"useCases": ["Web Development", "Cloud Services", "Microservices"],
 		"relatedLibrary": {
@@ -139,7 +139,7 @@
 		"age": 7,
 		"isActive": true,
 		"birthDate": "2014-06-02",
-		"imageUrl": "https://example.com/images/languages/swift.jpg",
+		"imageUrl": "https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-DenGian/main/assets/images/Swift.webp",
 		"genre": "Algemeen doel",
 		"useCases": ["iOS Development", "macOS Development", "App Development"],
 		"relatedLibrary": {
@@ -158,7 +158,7 @@
 		"age": 11,
 		"isActive": true,
 		"birthDate": "2010-07-07",
-		"imageUrl": "https://example.com/images/languages/rust.jpg",
+		"imageUrl": "https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-DenGian/main/assets/images/Rust.webp",
 		"genre": "Algemeen doel",
 		"useCases": ["System Programming", "Web Development", "Concurrency"],
 		"relatedLibrary": {
@@ -177,7 +177,7 @@
 		"age": 10,
 		"isActive": true,
 		"birthDate": "2012-10-01",
-		"imageUrl": "https://example.com/images/languages/typescript.jpg",
+		"imageUrl": "https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-DenGian/main/assets/images/Typescript.webp",
 		"genre": "Scripting",
 		"useCases": ["Single-page Application Development", "Frontend Development", "Web Development"],
 		"relatedLibrary": {
