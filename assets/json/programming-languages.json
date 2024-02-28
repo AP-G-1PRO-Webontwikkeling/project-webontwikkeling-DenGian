@@ -1,0 +1,192 @@
+[
+	{
+		"id": "LANG-001",
+		"name": "Python",
+		"description": "Python is een veelzijdige programmeertaal die wordt gebruikt voor webontwikkeling, data-analyse, machine learning en meer.",
+		"age": 31,
+		"isActive": true,
+		"birthDate": "1991-02-20",
+		"imageUrl": "https://example.com/images/languages/python.jpg",
+		"genre": "Algemeen doel",
+		"useCases": ["Web Development", "Data Analysis", "Machine Learning"],
+		"relatedLibrary": {
+			"id": "LIB-101",
+			"name": "Django",
+			"description": "Django is een high-level web framework geschreven in Python dat snel webontwikkeling mogelijk maakt.",
+			"website": "https://www.djangoproject.com/",
+			"stars": 50700,
+			"latestVersion": "3.2.12"
+		}
+	},
+	{
+		"id": "LANG-002",
+		"name": "JavaScript",
+		"description": "JavaScript is een programmeertaal die vaak wordt gebruikt voor het maken van interactieve webpagina's.",
+		"age": 26,
+		"isActive": true,
+		"birthDate": "1995-12-04",
+		"imageUrl": "https://example.com/images/languages/javascript.jpg",
+		"genre": "Scripting",
+		"useCases": ["Frontend Development", "Web Applications", "Server-Side Development"],
+		"relatedLibrary": {
+			"id": "LIB-102",
+			"name": "React",
+			"description": "React is een JavaScript-bibliotheek voor het bouwen van gebruikersinterfaces, ontwikkeld door Facebook.",
+			"website": "https://reactjs.org/",
+			"stars": 175000,
+			"latestVersion": "18.0.1"
+		}
+	},
+	{
+		"id": "LANG-003",
+		"name": "Java",
+		"description": "Java is een objectgeoriënteerde programmeertaal die wordt gebruikt voor het ontwikkelen van desktop, web- en mobiele applicaties.",
+		"age": 26,
+		"isActive": true,
+		"birthDate": "1995-05-23",
+		"imageUrl": "https://example.com/images/languages/java.jpg",
+		"genre": "Algemeen doel",
+		"useCases": ["Enterprise Applications", "Web Development", "Mobile Development"],
+		"relatedLibrary": {
+			"id": "LIB-103",
+			"name": "Spring Framework",
+			"description": "Spring is een krachtig framework voor Java dat wordt gebruikt voor het bouwen van enterprise Java-applicaties.",
+			"website": "https://spring.io/",
+			"stars": 52300,
+			"latestVersion": "5.3.14"
+		}
+	},
+	{
+		"id": "LANG-004",
+		"name": "C++",
+		"description": "C++ is een krachtige programmeertaal die wordt gebruikt voor het ontwikkelen van systeemsoftware, games en applicaties met hoge prestaties.",
+		"age": 38,
+		"isActive": true,
+		"birthDate": "1983-01-01",
+		"imageUrl": "https://example.com/images/languages/cpp.jpg",
+		"genre": "Algemeen doel",
+		"useCases": ["System Software", "Game Development", "High-Performance Applications"],
+		"relatedLibrary": {
+			"id": "LIB-104",
+			"name": "Qt",
+			"description": "Qt is een cross-platform C++ framework voor het bouwen van grafische gebruikersinterfaces.",
+			"website": "https://www.qt.io/",
+			"stars": 11700,
+			"latestVersion": "6.2.3"
+		}
+	},
+	{
+		"id": "LANG-005",
+		"name": "C#",
+		"description": "C# is een programmeertaal ontwikkeld door Microsoft en wordt vaak gebruikt voor het bouwen van Windows-applicaties, webtoepassingen en games met Unity.",
+		"age": 21,
+		"isActive": true,
+		"birthDate": "2000-01-01",
+		"imageUrl": "https://example.com/images/languages/csharp.jpg",
+		"genre": "Algemeen doel",
+		"useCases": ["Windows Applications", "Web Development", "Game Development"],
+		"relatedLibrary": {
+			"id": "LIB-105",
+			"name": ".NET Core",
+			"description": ".NET Core is een cross-platform framework voor het bouwen van moderne webapplicaties en microservices met C#.",
+			"website": "https://dotnet.microsoft.com/",
+			"stars": 46800,
+			"latestVersion": "6.0.3"
+		}
+	},
+	{
+		"id": "LANG-006",
+		"name": "Ruby",
+		"description": "Ruby is een programmeertaal bekend om zijn eenvoud en productiviteit, vaak gebruikt voor webontwikkeling.",
+		"age": 29,
+		"isActive": true,
+		"birthDate": "1995-02-24",
+		"imageUrl": "https://example.com/images/languages/ruby.jpg",
+		"genre": "Scripting",
+		"useCases": ["Web Development", "Backend Development", "Prototyping"],
+		"relatedLibrary": {
+			"id": "LIB-106",
+			"name": "Ruby on Rails",
+			"description": "Ruby on Rails is een web framework geschreven in Ruby dat wordt gebruikt voor het bouwen van schaalbare webapplicaties.",
+			"website": "https://rubyonrails.org/",
+			"stars": 49200,
+			"latestVersion": "7.0.0"
+		}
+	},
+	{
+		"id": "LANG-007",
+		"name": "Go",
+		"description": "Go, ook wel bekend als Golang, is een open source programmeertaal ontwikkeld door Google, bekend om zijn eenvoud en efficiëntie.",
+		"age": 13,
+		"isActive": true,
+		"birthDate": "2009-11-10",
+		"imageUrl": "https://example.com/images/languages/go.jpg",
+		"genre": "Algemeen doel",
+		"useCases": ["Web Development", "Cloud Services", "Microservices"],
+		"relatedLibrary": {
+			"id": "LIB-107",
+			"name": "Gin",
+			"description": "Gin is een web framework geschreven in Go voor het bouwen van snelle en efficiënte webapplicaties.",
+			"website": "https://gin-gonic.com/",
+			"stars": 51600,
+			"latestVersion": "v1.7.4"
+		}
+	},
+	{
+		"id": "LANG-008",
+		"name": "Swift",
+		"description": "Swift is een krachtige en intuïtieve programmeertaal ontwikkeld door Apple voor het bouwen van iOS-, macOS-, watchOS- en tvOS-applicaties.",
+		"age": 7,
+		"isActive": true,
+		"birthDate": "2014-06-02",
+		"imageUrl": "https://example.com/images/languages/swift.jpg",
+		"genre": "Algemeen doel",
+		"useCases": ["iOS Development", "macOS Development", "App Development"],
+		"relatedLibrary": {
+			"id": "LIB-108",
+			"name": "SwiftUI",
+			"description": "SwiftUI is een framework voor het bouwen van gebruikersinterfaces met behulp van Swift, waardoor het gemakkelijk wordt om prachtige en interactieve apps te maken.",
+			"website": "https://developer.apple.com/xcode/swiftui/",
+			"stars": 24900,
+			"latestVersion": "3.1"
+		}
+	},
+	{
+		"id": "LANG-009",
+		"name": "Rust",
+		"description": "Rust is een veilige, concurrente en praktische programmeertaal die wordt gebruikt voor systeemprogrammering, webontwikkeling en meer.",
+		"age": 11,
+		"isActive": true,
+		"birthDate": "2010-07-07",
+		"imageUrl": "https://example.com/images/languages/rust.jpg",
+		"genre": "Algemeen doel",
+		"useCases": ["System Programming", "Web Development", "Concurrency"],
+		"relatedLibrary": {
+			"id": "LIB-109",
+			"name": "Rocket",
+			"description": "Rocket is een web framework geschreven in Rust dat wordt gebruikt voor het bouwen van veilige en snelle webapplicaties.",
+			"website": "https://rocket.rs/",
+			"stars": 16000,
+			"latestVersion": "0.5.0"
+		}
+	},
+	{
+		"id": "LANG-010",
+		"name": "TypeScript",
+		"description": "TypeScript is een programmeertaal ontwikkeld door Microsoft die een optionele statische typechecker toevoegt aan JavaScript.",
+		"age": 10,
+		"isActive": true,
+		"birthDate": "2012-10-01",
+		"imageUrl": "https://example.com/images/languages/typescript.jpg",
+		"genre": "Scripting",
+		"useCases": ["Single-page Application Development", "Frontend Development", "Web Development"],
+		"relatedLibrary": {
+			"id": "LIB-110",
+			"name": "Angular",
+			"description": "Angular is een TypeScript-gebaseerd open-source web framework voor het bouwen van single-page applicaties.",
+			"website": "https://angular.io/",
+			"stars": 76800,
+			"latestVersion": "13.1.1"
+		}
+	}
+]
