@@ -54,6 +54,7 @@ The API returns data in JSON format. Here's an example response for retrieving p
 		"birthDate": "1991-02-20",
 		"imageUrl": "https://example.com/images/languages/python.jpg",
 		"genre": "Algemeen doel",
+		"useCases": ["Web Development", "Data Analysis", "Machine Learning"],
 		"relatedLibrary": {
 			"id": "LIB-101",
 			"name": "Django",
