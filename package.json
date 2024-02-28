@@ -1,0 +1,18 @@
+{
+  "name": "project-webontwikkeling-dengian",
+  "version": "1.0.0",
+  "description": "This API provides information about various programming languages along with related libraries. It offers details such as the name, description, age, birth date, genre, and related libraries for each programming language.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.11.21",
+    "@types/readline-sync": "^1.4.8"
+  },
+  "dependencies": {
+    "readline-sync": "^1.4.10"
+  }
+}
