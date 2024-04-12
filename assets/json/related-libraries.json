@@ -29,7 +29,7 @@
 	{
 		"id": "LIB-104",
 		"name": "Qt",
-		"imageUrl": "https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-DenGian/main/assets/images/Python.webp",
+	"imageUrl": "https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-DenGian/main/assets/images/Qt.webp",
 		"description": "Qt is een cross-platform C++ framework voor het bouwen van grafische gebruikersinterfaces.",
 		"website": "https://www.qt.io/",
 		"stars": 11700,
@@ -60,7 +60,7 @@
 		"description": "Gin is een web framework geschreven in Go voor het bouwen van snelle en efficiënte webapplicaties.",
 		"website": "https://gin-gonic.com/",
 		"stars": 51600,
-		"latestVersion": "v1.7.4"
+		"latestVersion": "1.7.4"
 	},
 	{
 		"id": "LIB-108",
