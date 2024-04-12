@@ -25,7 +25,7 @@
 		"age": 26,
 		"isActive": true,
 		"birthDate": "1995-12-04",
-		"imageUrl": "https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-DenGian/main/assets/images/javascript.webp",
+		"imageUrl": "https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-DenGian/main/assets/images/Javascript.webp",
 		"genre": "Scripting",
 		"useCases": ["Frontend Development", "Web Applications", "Server-Side Development"],
 		"relatedLibrary": {
