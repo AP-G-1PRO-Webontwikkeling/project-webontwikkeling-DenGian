@@ -12,6 +12,7 @@
 		"relatedLibrary": {
 			"id": "LIB-101",
 			"name": "Django",
+			"imageUrl": "https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-DenGian/main/assets/images/Django.webp",
 			"description": "Django is een high-level web framework geschreven in Python dat snel webontwikkeling mogelijk maakt.",
 			"website": "https://www.djangoproject.com/",
 			"stars": 50700,
@@ -31,6 +32,7 @@
 		"relatedLibrary": {
 			"id": "LIB-102",
 			"name": "React",
+			"imageUrl": "https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-DenGian/main/assets/images/React.webp",
 			"description": "React is een JavaScript-bibliotheek voor het bouwen van gebruikersinterfaces, ontwikkeld door Facebook.",
 			"website": "https://reactjs.org/",
 			"stars": 175000,
@@ -50,6 +52,7 @@
 		"relatedLibrary": {
 			"id": "LIB-103",
 			"name": "Spring Framework",
+			"imageUrl": "https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-DenGian/main/assets/images/SpringFramework.webp",
 			"description": "Spring is een krachtig framework voor Java dat wordt gebruikt voor het bouwen van enterprise Java-applicaties.",
 			"website": "https://spring.io/",
 			"stars": 52300,
@@ -69,6 +72,7 @@
 		"relatedLibrary": {
 			"id": "LIB-104",
 			"name": "Qt",
+			"imageUrl": "https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-DenGian/main/assets/images/Qt.webp",
 			"description": "Qt is een cross-platform C++ framework voor het bouwen van grafische gebruikersinterfaces.",
 			"website": "https://www.qt.io/",
 			"stars": 11700,
@@ -88,6 +92,7 @@
 		"relatedLibrary": {
 			"id": "LIB-105",
 			"name": ".NET Core",
+			"imageUrl": "https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-DenGian/main/assets/images/DotNetCore.webp",
 			"description": ".NET Core is een cross-platform framework voor het bouwen van moderne webapplicaties en microservices met C#.",
 			"website": "https://dotnet.microsoft.com/",
 			"stars": 46800,
@@ -107,6 +112,7 @@
 		"relatedLibrary": {
 			"id": "LIB-106",
 			"name": "Ruby on Rails",
+			"imageUrl": "https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-DenGian/main/assets/images/RubyOnRails.webp",
 			"description": "Ruby on Rails is een web framework geschreven in Ruby dat wordt gebruikt voor het bouwen van schaalbare webapplicaties.",
 			"website": "https://rubyonrails.org/",
 			"stars": 49200,
@@ -126,6 +132,7 @@
 		"relatedLibrary": {
 			"id": "LIB-107",
 			"name": "Gin",
+			"imageUrl": "https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-DenGian/main/assets/images/Gin.webp",
 			"description": "Gin is een web framework geschreven in Go voor het bouwen van snelle en efficiënte webapplicaties.",
 			"website": "https://gin-gonic.com/",
 			"stars": 51600,
@@ -145,6 +152,7 @@
 		"relatedLibrary": {
 			"id": "LIB-108",
 			"name": "SwiftUI",
+			"imageUrl": "https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-DenGian/main/assets/images/SwiftUI.webp",
 			"description": "SwiftUI is een framework voor het bouwen van gebruikersinterfaces met behulp van Swift, waardoor het gemakkelijk wordt om prachtige en interactieve apps te maken.",
 			"website": "https://developer.apple.com/xcode/swiftui/",
 			"stars": 24900,
@@ -164,6 +172,7 @@
 		"relatedLibrary": {
 			"id": "LIB-109",
 			"name": "Rocket",
+			"imageUrl": "https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-DenGian/main/assets/images/Rocket.webp",
 			"description": "Rocket is een web framework geschreven in Rust dat wordt gebruikt voor het bouwen van veilige en snelle webapplicaties.",
 			"website": "https://rocket.rs/",
 			"stars": 16000,
@@ -183,6 +192,7 @@
 		"relatedLibrary": {
 			"id": "LIB-110",
 			"name": "Angular",
+			"imageUrl": "https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-DenGian/main/assets/images/Angular.webp",
 			"description": "Angular is een TypeScript-gebaseerd open-source web framework voor het bouwen van single-page applicaties.",
 			"website": "https://angular.io/",
 			"stars": 76800,
