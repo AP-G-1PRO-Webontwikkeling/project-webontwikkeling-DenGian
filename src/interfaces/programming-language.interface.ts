@@ -11,6 +11,7 @@ export interface ProgrammingLanguage {
 	relatedLibrary: {
 		id: string;
 		name: string;
+		imageUrl: string;
 		description: string;
 		website: string;
 		stars: number;
