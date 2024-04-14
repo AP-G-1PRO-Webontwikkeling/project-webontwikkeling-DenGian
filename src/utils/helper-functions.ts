@@ -1,105 +1,137 @@
-import * as readline from "readline-sync";
 import { ProgrammingLanguage } from "../interfaces/programming-language.interface";
 import { RelatedLibrary } from "../interfaces/related-library.interface";
-// import languages from "../../assets/json/programming-languages.json";
-// import libraries from "../../assets/json/related-libraries.json";
 
-const menuItems: string[] = [
-	"View all languages ",
-	"View all libraries ",
-	"Filter by ID ",
-	"Exit ",
-];
 const API_Lang =
 	"https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-DenGian/main/assets/json/programming-languages.json";
 const API_Lib =
 	"https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-DenGian/main/assets/json/related-libraries.json";
 
-const showMenu = () => {
-	console.log("Welcome to the JSON data viewer!");
-	console.log("");
-	for (let i = 0; i < menuItems.length; i++) {
-		console.log(`${i + 1}. ${menuItems[i]}`);
-	}
-};
+//////////////////////////
 
-const getUserChoice = (): number => {
-	let userChoice: number;
-	do {
-		userChoice = readline.questionInt("Please enter your choice: ");
-	} while (isNaN(userChoice) || userChoice < 1 || userChoice > menuItems.length);
-	return userChoice;
-};
-
-async function getAllLang() {
+async function getAllLang(): Promise<ProgrammingLanguage[]> {
 	try {
 		const response = await fetch(API_Lang);
 		if (!response.ok) {
 			throw new Error(`Failed to fetch data: ${response.statusText}`);
 		}
-		const data = (await response.json()) as ProgrammingLanguage[];
-		if (data.length === 0) {
-			console.log("No programming languages found.");
-		} else {
-			for (const lang of data) {
-				console.log(`- ${lang.name} (${lang.id})`);
-			}
-		}
+		const data = await response.json() as ProgrammingLanguage[];
+		return data;
 	} catch (error) {
-		console.log(` an error occured! ${error}`);
+		throw new Error(`An error occurred while fetching data: ${error}`);
 	}
 }
 
-async function getAllLib() {
+function filteredLanguages(languages: ProgrammingLanguage[] | undefined, searchTerm: string): ProgrammingLanguage[] {
+    if (!languages) {
+        return [];
+    }
+    const lowerCaseSearchTerm = searchTerm.toLowerCase().trim();
+    return languages.filter(language => language.name.toLowerCase().includes(lowerCaseSearchTerm));
+}
+
+function getCompareFunction(sortField: string, sortDirection: string): (a: ProgrammingLanguage, b: ProgrammingLanguage) => number {
+    return (a: ProgrammingLanguage, b: ProgrammingLanguage) => {
+        if (sortField === "name") {
+            return sortDirection === "asc" ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name);
+        } else if (sortField === "birthDate") {
+            return sortDirection === "asc" ? Date.parse(a.birthDate) - Date.parse(b.birthDate) : Date.parse(b.birthDate) - Date.parse(a.birthDate);
+        } else if (sortField === "useCases") {
+            const useCasesA = a.useCases.join(', ');
+            const useCasesB = b.useCases.join(', ');
+            return sortDirection === "asc" ? useCasesA.localeCompare(useCasesB) : useCasesB.localeCompare(useCasesA);
+        } else if (sortField === "genre") {
+            return sortDirection === "asc" ? a.genre.localeCompare(b.genre) : b.genre.localeCompare(a.genre);
+        } else if (sortField === "isActive") {
+            return sortDirection === "asc" ? a.isActive === b.isActive ? 0 : a.isActive ? -1 : 1 : a.isActive === b.isActive ? 0 : a.isActive ? 1 : -1;
+        }
+        return 0;
+    };
+}
+
+function sortLanguages(languages: ProgrammingLanguage[], sortField: string, sortDirection: string): ProgrammingLanguage[] {
+    const compareFunction = getCompareFunction(sortField, sortDirection);
+    return [...languages].sort(compareFunction);
+}
+
+function getDefaultSortDirection(sortField: string): string {
+    return "asc";
+}
+
+async function getLanguageById(languageId: string): Promise<ProgrammingLanguage | null> {
+    try {
+        const allLanguages = await getAllLang();
+        return allLanguages.find(language => language.id === languageId) || null;
+    } catch (error) {
+        throw new Error(`An error occurred while fetching data: ${error}`);
+    }
+}
+
+/////////////////////////////
+
+async function getAllLibraries(): Promise<RelatedLibrary[]> {
 	try {
 		const response = await fetch(API_Lib);
 		if (!response.ok) {
 			throw new Error(`Failed to fetch data: ${response.statusText}`);
 		}
-		const data = (await response.json()) as RelatedLibrary[];
-		if (data.length === 0) {
-			console.log("No librarues found.");
-		} else {
-			for (const lib of data) {
-				console.log(`- ${lib.name} (${lib.id})`);
-			}
-		}
+		const data = await response.json() as RelatedLibrary[];
+		return data;
 	} catch (error) {
-		console.log(` an error occured! ${error}`);
+		throw new Error(`An error occurred while fetching data: ${error}`);
 	}
 }
 
-async function filterById(id: string) {
-	try {
-		const response = await fetch(API_Lang);
-		if (!response.ok) {
-			throw new Error(`Failed to fetch data: ${response.statusText}`);
-		}
-		const data = (await response.json()) as ProgrammingLanguage[];
-		const filteredLanguage = data.find((language) => language.id === id);
-		if (filteredLanguage) {
-			console.log("");
-			console.log(`- ${filteredLanguage.name} (${filteredLanguage.id})`);
-			console.log(`   - Description: ${filteredLanguage.description}`);
-			console.log(`   - Age: ${filteredLanguage.age}`);
-			console.log(`   - IsActive: ${filteredLanguage.isActive}`);
-			console.log(`   - BirthDate: ${filteredLanguage.birthDate}`);
-			console.log(`   - ImageUrl: ${filteredLanguage.imageUrl}`);
-			console.log(`   - Genre: ${filteredLanguage.genre}`);
-			console.log(`   - UseCases: ${filteredLanguage.useCases.join(", ")}`);
-			console.log("   - Related Library:");
-			console.log(`       - ID: ${filteredLanguage.relatedLibrary.id}`);
-			console.log(`       - Name: ${filteredLanguage.relatedLibrary.name}`);
-			console.log(`       - Description: ${filteredLanguage.relatedLibrary.description}`);
-			console.log(`       - Website: ${filteredLanguage.relatedLibrary.website}`);
-			console.log(`       - Stars: ${filteredLanguage.relatedLibrary.stars}`);
-			console.log(`       - LatestVersion: ${filteredLanguage.relatedLibrary.latestVersion}`);
-		} else {
-			console.log("Language not found.");
-		}
-	} catch (error) {
-		console.log(error);
-	}
+function filteredLibraries(libraries: RelatedLibrary[] | undefined, searchTerm: string): RelatedLibrary[] {
+    if (!libraries) {
+        return [];
+    }
+    const lowerCaseSearchTerm = searchTerm.toLowerCase().trim();
+    return libraries.filter(library => library.name.toLowerCase().includes(lowerCaseSearchTerm));
 }
 
-export { showMenu, getUserChoice, getAllLang, getAllLib, filterById };
+function getLibraryCompareFunction(sortField: string, sortDirection: string): (a: RelatedLibrary, b: RelatedLibrary) => number {
+    return (a: RelatedLibrary, b: RelatedLibrary) => {
+        switch (sortField) {
+            case "name":
+                return sortDirection === "asc" ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name);
+            case "website":
+                return sortDirection === "asc" ? a.website.localeCompare(b.website) : b.website.localeCompare(a.website);
+            case "stars":
+                return sortDirection === "asc" ? a.stars - b.stars : b.stars - a.stars;
+            case "latestVersion":
+                return sortDirection === "asc" ? compareVersions(a.latestVersion, b.latestVersion) : compareVersions(b.latestVersion, a.latestVersion);
+            default:
+                return 0;
+        }
+    };
+}
+
+function sortLibraries(libraries: RelatedLibrary[], sortField: string, sortDirection: string): RelatedLibrary[] {
+    const compareFunction = getLibraryCompareFunction(sortField, sortDirection);
+    return [...libraries].sort(compareFunction);
+}
+
+function compareVersions(versionA: string, versionB: string): number {
+    const partsA = versionA.split('.').map(part => parseInt(part, 10));
+    const partsB = versionB.split('.').map(part => parseInt(part, 10));
+
+    for (let i = 0; i < Math.max(partsA.length, partsB.length); i++) {
+        const partA = partsA[i] || 0;
+        const partB = partsB[i] || 0;
+        if (partA !== partB) {
+            return partA - partB;
+        }
+    }
+    return 0;
+}
+
+async function getLibraryById(libraryId: string): Promise<RelatedLibrary | null> {
+    try {
+        const allLibraries = await getAllLibraries();
+        return allLibraries.find(library => library.id === libraryId) || null;
+    } catch (error) {
+        throw new Error(`An error occurred while fetching data: ${error}`);
+    }
+}
+
+export {getAllLang, filteredLanguages, sortLanguages, getLanguageById, getDefaultSortDirection, getAllLibraries, filteredLibraries, sortLibraries, getLibraryById };
