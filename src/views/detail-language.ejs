@@ -1,0 +1,41 @@
+<%- include("partials/detail-header") %>
+<%- include("partials/detail-nav") %>
+
+<div class="flex justify-center">
+  <div class="max-w-xl w-full mx-4 my-4">
+    <div class="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+      <ul class="flex flex-wrap justify-center text-sm font-medium text-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-gray-50 dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800" id="defaultTab" data-tabs-toggle="#defaultTabContent" role="tablist">
+        <li class="me-2">
+          <button id="about-tab" data-tabs-target="#about" type="button" role="tab" aria-controls="about" aria-selected="true" class="inline-block p-4 text-blue-600 rounded-ss-lg hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-blue-500">About <%= language.name %></button>
+        </li>
+        <li class="me-2">
+          <button id="library-tab" data-tabs-target="#library" type="button" role="tab" aria-controls="library" aria-selected="false" class="inline-block p-4 hover:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-gray-300">Library: <%= language.relatedLibrary.name %></button>
+        </li>
+      </ul>
+      <div id="defaultTabContent">
+        <div class="hidden p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800 text-center" id="about" role="tabpanel" aria-labelledby="about-tab">
+          <img src="<%= language.imageUrl %>" alt="<%= language.name %>" class="h-auto rounded-lg mb-4 mx-auto" style="width: 220px;">
+          <div class="mt-4 mb-4 text-gray-700 dark:text-gray-500 text-left"><%= language.description %></div>
+          <div class="mb-2 text-gray-500 dark:text-gray-400 text-left">Active: <%= language.isActive ? 'Yes' : 'No' %></div>
+          <div class="mb-2 text-gray-500 dark:text-gray-400 text-left">Age: <%= language.age %> years</div>
+          <div class="mb-2 text-gray-500 dark:text-gray-400 text-left">Birth Date: <%= language.birthDate %></div>
+          <div class="mb-2 text-gray-500 dark:text-gray-400 text-left">Genre: <%= language.genre %></div>
+          <div class="mb-1 text-gray-500 dark:text-gray-400 text-left">Use Cases:</div>
+          <ul class="list-disc pl-8 text-gray-500 dark:text-gray-400 text-left">
+            <% language.useCases.forEach(function(useCase) { %>
+              <li><%= useCase %></li>
+            <% }); %>
+          </ul>
+        </div>
+        <div class="hidden p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800 text-center" id="library" role="tabpanel" aria-labelledby="library-tab">
+          <img src="<%= language.relatedLibrary.imageUrl %>" alt="<%= language.relatedLibrary.name %>" class="h-auto rounded-lg mb-4 mx-auto" style="width: 330px;">
+          <div class="mt-4 mb-4 text-gray-700 dark:text-gray-500 text-left"><%= language.relatedLibrary.description %></div>
+          <div class="mb-2 text-gray-500 dark:text-gray-400 text-left">Website: <a href="<%= language.relatedLibrary.website %>" class="text-blue-600 hover:underline"><%= language.relatedLibrary.website %></a></div>
+          <a href="/libraries/<%= language.relatedLibrary.id %>" class="block w-full mt-4 py-2 px-4 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700">View Library Details</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include("partials/detail-footer") %>

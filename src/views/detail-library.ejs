@@ -1,0 +1,19 @@
+<%- include("partials/detail-header") %>
+<%- include("partials/detail-nav") %>
+
+<div class="max-w-sm mx-auto my-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+    <a href="/libraries">
+        <img class="w-full rounded-t-lg" src="<%= library.imageUrl %>" alt="<%= library.name %>" />
+    </a>
+    <div class="p-5 text-left">
+        <a href="/libraries">
+            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"><%= library.name %></h5>
+        </a>
+        <p class="mt-4 mb-4 font-normal text-gray-500 dark:text-gray-400"><%= library.description %></p>
+        <p class="mb-2 font-normal text-gray-900 dark:text-white">Stars: <%= library.stars %></p>
+        <p class="mb-2 font-normal text-gray-900 dark:text-white">Latest Release: <%= library.latestVersion %></p>
+        <p class="mb-2 font-normal text-gray-900 dark:text-white">Website: <a href="<%= library.website %>" class="text-blue-700 hover:underline hover:text-blue-800"><%= library.website %></a></p>
+    </div>
+</div>
+
+<%- include("partials/detail-footer") %>
