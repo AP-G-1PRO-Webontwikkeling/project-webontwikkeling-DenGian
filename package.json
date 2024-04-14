@@ -2,17 +2,32 @@
   "name": "project-webontwikkeling-dengian",
   "version": "1.0.0",
   "description": "This API provides information about various programming languages along with related libraries. It offers details such as the name, description, age, birth date, genre, and related libraries for each programming language.",
-  "main": "index.js",
+  "main": "app.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon src/app.ts"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/ejs": "^3.1.5",
+    "@types/express": "^4.17.21",
     "@types/node": "^20.11.21",
-    "@types/readline-sync": "^1.4.8"
+    "@types/readline-sync": "^1.4.8",
+    "flowbite": "^2.3.0",
+    "nodemon": "^3.1.0",
+    "tailwindcss": "^3.4.3",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.4.5",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4"
   },
   "dependencies": {
+    "autoprefixer": "^10.4.19",
+    "axios": "^1.6.8",
+    "ejs": "^3.1.9",
+    "express": "^4.19.2",
+    "postcss": "^8.4.38",
     "readline-sync": "^1.4.10"
   }
 }
