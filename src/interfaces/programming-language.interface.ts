@@ -1,20 +1,23 @@
+import { ObjectId } from "mongodb";
+
 export interface ProgrammingLanguage {
-	id: string;
-	name: string;
-	description: string;
-	age: number;
-	isActive: boolean;
-	birthDate: string;
-	imageUrl: string;
-	genre: string;
-	useCases: string[];
-	relatedLibrary: {
-		id: string;
-		name: string;
-		imageUrl: string;
-		description: string;
-		website: string;
-		stars: number;
-		latestVersion: string;
-	};
+    _id: ObjectId;
+    id: string;
+    name: string;
+    description: string;
+    age: number;
+    isActive: boolean;
+    birthDate: Date;
+    imageUrl: string;
+    genre: string;
+    useCases: string[];
+    relatedLibrary: {
+        id: string;
+        name: string;
+        imageUrl: string;
+        description: string;
+        website: string;
+        stars: number;
+        latestVersion: string;
+    };
 }
