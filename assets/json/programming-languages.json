@@ -24,7 +24,7 @@
 		"name": "JavaScript",
 		"description": "JavaScript is a programming language commonly used for creating interactive web pages.",
 		"age": 29,
-		"isActive": true,
+		"isActive": false,
 		"birthDate": "1995-12-04",
 		"imageUrl": "https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-DenGian/main/assets/images/JavaScript.webp",
 		"genre": "Scripting",
