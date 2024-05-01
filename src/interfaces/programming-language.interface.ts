@@ -7,7 +7,7 @@ export interface ProgrammingLanguage {
     description: string;
     age: number;
     isActive: boolean;
-    birthDate: Date;
+    birthdate: string;
     imageUrl: string;
     genre: string;
     useCases: string[];
