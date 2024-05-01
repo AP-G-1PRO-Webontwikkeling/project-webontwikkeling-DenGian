@@ -113,7 +113,7 @@
                             <div class="font-normal text-gray-500"><%= language.relatedLibrary.name %></div>
                         </div>  
                     </th>
-                    <td class="px-6 py-4"><%= language.birthDate %></td>
+                    <td class="px-6 py-4"><%= language.birthdate %></td>
                     <td class="px-6 py-4">
                         <% language.useCases.forEach(useCase => { %>
                             <div><%= useCase %></div>
@@ -122,17 +122,25 @@
                     <td class="px-6 py-4"><%= language.genre %></td>
                     <td class="px-6 py-4">
                         <div class="flex items-center">
-                            <% if (language.isActive) { %>
+                            <% if (language.isActive === true) { %>
                                 <div class="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div>
+                                <div>Active</div>
                             <% } else { %>
                                 <div class="h-2.5 w-2.5 rounded-full bg-red-500 me-2"></div>
+                                <div>Inactive</div>
                             <% } %>
-                            <div><%= language.isActive ? 'Active' : 'Inactive' %></div>
                         </div>
-                    </td>
+                    </td>                                     
                     <td class="px-6 py-4">
-                        <a href="/languages/<%= language.id %>" type="button" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">View</a>
-                    </td>
+                        <div class="flex flex-col items-start space-y-2">
+                            <div>
+                                <a href="/languages/<%= language.id %>" type="button" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">View</a>
+                            </div>
+                            <div>
+                                <a href="/languages/<%= language.id %>/update" type="button" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Update</a>
+                            </div>
+                        </div>
+                    </td>                   
                 </tr>
             <% }); %>
         </tbody>
