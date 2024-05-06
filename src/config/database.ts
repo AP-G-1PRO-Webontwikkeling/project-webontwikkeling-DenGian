@@ -11,9 +11,9 @@ const collectionLanguages : Collection<ProgrammingLanguage> = client.db("opdrach
 const collectionLibraries : Collection<RelatedLibrary> = client.db("opdracht").collection<RelatedLibrary>("libraries");
 
 const API_Lang =
-	"https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-DenGian/main/assets/json/programming-languages.json";
+	"https://raw.githubusercontent.com/DenGian/API-Collection/main/assets/json/programming-languages.json";
 const API_Lib =
-	"https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-DenGian/main/assets/json/related-libraries.json";
+	"https://raw.githubusercontent.com/DenGian/API-Collection/main/assets/json/related-libraries.json";
 
 async function exit() {
     try {
