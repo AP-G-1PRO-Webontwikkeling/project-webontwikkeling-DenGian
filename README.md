@@ -42,7 +42,7 @@ Whether you're a coding connoisseur or a newbie astronaut, CodeVerse Hub is the 
 - **Description**: Returns a list of programming languages along with their details.
 - **Example**:
   ```bash
-  curl -X GET https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-DenGian/main/assets/programming-languages.json
+  curl -X GET https://raw.githubusercontent.com/DenGian/API-Collection/main/assets/json/programming-languages.json
   ```
 
   #### Retrieving Related Libraries
@@ -54,7 +54,7 @@ Whether you're a coding connoisseur or a newbie astronaut, CodeVerse Hub is the 
   - `id`: The ID of the programming language.
 - **Example**:
   ```bash
-  curl -X GET https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-DenGian/main/assets/related-libraries.json/LANG-001
+  curl -X GET https://raw.githubusercontent.com/DenGian/API-Collection/main/assets/json/related-libraries.json
   ```
 
   ### Response Format
