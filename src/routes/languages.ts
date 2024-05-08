@@ -1,7 +1,8 @@
 import express, { Request, Response } from "express";
-import { filteredLanguages, getLanguageById, getAllLang, updateLanguage } from "../config/database";
+import { filteredLanguages, getLanguageById, updateLanguage } from "../config/database";
 import { sortLanguages, getDefaultSortDirection } from "../utils/helper-functions";
 import { ProgrammingLanguage } from "../interfaces/programming-language.interface";
+import { UpdateProgrammingLanguage } from "../interfaces/update-programming-language.interface";
 
 const router = express.Router();
 
@@ -11,12 +12,7 @@ router.get("/", async (req: Request, res: Response) => {
         const sortField: string = req.query.sortField?.toString() ?? "name";
         const sortDirection: string = req.query.sortDirection?.toString() ?? getDefaultSortDirection(sortField);
 
-        const allLanguages = await getAllLang();
-        let filtered = allLanguages;
-
-        if (searchTerm) {
-            filtered = await filteredLanguages(searchTerm);
-        }
+        const filtered = await filteredLanguages(searchTerm);
 
         const sorted = await sortLanguages(filtered, sortField, sortDirection);
 
@@ -28,53 +24,7 @@ router.get("/", async (req: Request, res: Response) => {
         });
     } catch (error) {
         console.error("Error:", error);
-        res.status(500).send("Internal Server Error");
-    }
-});
-
-router.get("/:languageId", async (req, res) => {
-    try {
-        const languageId = req.params.languageId;
-        const language = await getLanguageById(languageId);
-        if (!language) {
-            res.status(404).send("Language not found");
-            return;
-        }
-        res.render("detail-language", { language });
-    } catch (error) {
-        console.error("Error:", error);
-        res.status(500).send("Internal Server Error");
-    }
-});
-
-router.get("/:languageId/update", async (req, res) => {
-    try {
-        const languageId: string = req.params.languageId;
-        const language: ProgrammingLanguage | null = await getLanguageById(languageId);
-        
-        if (!language) {
-            return res.status(404).send("Language not found");
-        }
-
-        res.render("edit-language", { language });
-    } catch (error) {
-        console.error("Error:", error);
-        res.status(500).send("Internal Server Error");
-    }
-});
-
-router.post("/:languageId/update", async (req, res) => {
-    try {
-        const languageId: string = req.params.languageId;
-        const updatedLanguageData: ProgrammingLanguage = req.body;
-        updatedLanguageData.isActive = req.body.isActive === "on" ? true : false;
-
-        await updateLanguage(languageId, updatedLanguageData);
-
-        res.redirect("/languages");
-    } catch (error) {
-        console.error("Error:", error);
-        res.status(500).send("Internal Server Error");
+        res.status(500).render("error");
     }
 });
 
@@ -95,7 +45,60 @@ router.post("/", async (req, res) => {
         });
     } catch (error) {
         console.error("Error:", error);
-        res.status(500).send("Internal Server Error");
+        res.status(500).render("error");
+    }
+});
+
+router.get("/:languageId", async (req, res) => {
+    try {
+        const languageId = req.params.languageId;
+        const language = await getLanguageById(languageId);
+        if (!language) {
+            res.status(404).render("404");
+            return;
+        }
+        res.render("detail-language", { language });
+    } catch (error) {
+        console.error("Error:", error);
+        res.status(500).render("error");
+    }
+});
+
+router.get("/:languageId/update", async (req, res) => {
+    try {
+        const languageId: string = req.params.languageId;
+        const language: UpdateProgrammingLanguage | null = await getLanguageById(languageId);
+        
+        if (!language) {
+            return res.status(404).render("404");
+        }
+        res.render("edit-language", { language });
+    } catch (error) {
+        console.error("Error:", error);
+        res.status(500).render("error");
+    }
+});
+
+router.post("/:languageId/update", async (req, res) => {
+    try {
+        const languageId: string = req.params.languageId;
+        const { name, birthdate, genre, isActive, description, useCases }: UpdateProgrammingLanguage | any = req.body;
+
+        const updatedLanguageData: UpdateProgrammingLanguage | any = {
+            name,
+            birthdate,
+            genre,
+            isActive: isActive === "on",
+            description,
+            useCases: useCases ? [].concat(useCases) : []
+        };
+
+        await updateLanguage(languageId, updatedLanguageData);
+
+        res.redirect("/languages");
+    } catch (error) {
+        console.error("Error:", error);
+        res.status(500).render("error");
     }
 });
 
