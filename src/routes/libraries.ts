@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import { getAllLibraries, filteredLibraries, getLibraryById } from "../config/database";
+import { filteredLibraries, getLibraryById } from "../config/database";
 import { sortLibraries, getDefaultSortDirection } from "../utils/helper-functions";
 import { RelatedLibrary } from "../interfaces/related-library.interface";
 
@@ -11,12 +11,7 @@ router.get("/", async (req: Request, res: Response) => {
         const sortField: string = req.query.sortField?.toString() ?? "name";
         const sortDirection: string = req.query.sortDirection?.toString() ?? getDefaultSortDirection(sortField);
 
-        const allLibraries = await getAllLibraries();
-        let filtered = allLibraries;
-
-        if (searchTerm) {
-            filtered = await filteredLibraries(searchTerm);
-        }
+        const filtered = await filteredLibraries(searchTerm);
 
         const sorted = await sortLibraries(filtered, sortField, sortDirection);
 
@@ -28,7 +23,7 @@ router.get("/", async (req: Request, res: Response) => {
         });
     } catch (error) {
         console.error("Error:", error);
-        res.status(500).send("Internal Server Error");
+        res.status(500).render("error");
     }
 });
 
@@ -37,13 +32,13 @@ router.get("/:libraryId", async (req, res) => {
         const libraryId = req.params.libraryId;
         const library = await getLibraryById(libraryId);
         if (!library) {
-            res.status(404).send("Library not found");
+            res.status(404).render("404");
             return;
         }
         res.render("detail-library", { library });
     } catch (error) {
         console.error("Error:", error);
-        res.status(500).send("Internal Server Error");
+        res.status(500).render("error");
     }
 });
 
@@ -64,7 +59,7 @@ router.post("/", async (req, res) => {
         });
     } catch (error) {
         console.error("Error:", error);
-        res.status(500).send("Internal Server Error");
+        res.status(500).render("error");
     }
 });
 
