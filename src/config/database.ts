@@ -155,7 +155,6 @@ async function connect() {
         console.log("SIGTERM received. Shutting down.");
         await exit();
     });
-    
 }
 
 export { connect, getAllLang, getLanguageById, filteredLanguages, getAllLibraries, getLibraryById, loadLanguagesFromApi, filteredLibraries, loadLibrariesFromApi, collectionLanguages, collectionLibraries };
