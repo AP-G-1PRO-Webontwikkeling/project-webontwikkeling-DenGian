@@ -5,15 +5,14 @@ import { RelatedLibrary } from "../interfaces/related-library.interface";
 
 dotenv.config();
 
-const client = new MongoClient(process.env.MONGODB_URI || "mongodb://localhost:27017");
+const client = new MongoClient(process.env.MONGODB_URI ?? "mongodb://localhost:27017");
 
 const collectionLanguages : Collection<ProgrammingLanguage> = client.db("opdracht").collection<ProgrammingLanguage>("languages");
 const collectionLibraries : Collection<RelatedLibrary> = client.db("opdracht").collection<RelatedLibrary>("libraries");
 
-const API_Lang =
-	"https://raw.githubusercontent.com/DenGian/API-Collection/main/assets/json/programming-languages.json";
-const API_Lib =
-	"https://raw.githubusercontent.com/DenGian/API-Collection/main/assets/json/related-libraries.json";
+const API_Lang = process.env.API_LANG_URL ?? "https://raw.githubusercontent.com/DenGian/API-Collection/main/assets/json/programming-languages.json";
+const API_Lib = process.env.API_LIB_URL ?? "https://raw.githubusercontent.com/DenGian/API-Collection/main/assets/json/related-libraries.json";
+
 
 async function exit() {
     try {
@@ -25,21 +24,27 @@ async function exit() {
     process.exit(0);
 }
 
-async function loadLanguagesFromApi(collectionLanguages: Collection<ProgrammingLanguage>) {
-    try {
-        console.log("Loading languages from API...");
-        const response = await fetch(API_Lang);
-        const languages = await response.json();
+async function fetchLanguagesFromAPI() {
+    const response = await fetch(API_Lang);
+    if (!response.ok) {
+        throw new Error(`API fetch for languages failed with status: ${response.status}`);
+    }
+    return response.json();
+}
 
-        if (languages.length > 0) {
-            console.log("Database is empty or needs update, clearing and loading languages from API");
-            await collectionLanguages.deleteMany({});
+async function loadLanguagesFromApi() {
+    const exists = await collectionLanguages.countDocuments();
+    if (exists === 0) {
+        console.log("No languages found in database, loading from API...");
+        try {
+            const languages = await fetchLanguagesFromAPI();
             await collectionLanguages.insertMany(languages);
-        } else {
-            console.log("Database is up to date, no action needed");
+            console.log("Languages loaded and inserted into the database.");
+        } catch (error) {
+            console.error("Failed to load languages from API: ", error);
         }
-    } catch (error) {
-        console.error("An error occurred while loading languages from API: ", error);
+    } else {
+        console.log("Languages already exist in the database.");
     }
 }
 
@@ -83,21 +88,27 @@ export async function updateLanguage(languageId: string, updatedLanguage: Progra
 
 //////////////////////////////
 
-async function loadLibrariesFromApi(collectionLibraries: Collection<RelatedLibrary>) {
-    try {
-        console.log("Loading libraries from API...");
-        const response = await fetch(API_Lib);
-        const libraries = await response.json();
+async function fetchLibrariesFromAPI() {
+    const response = await fetch(API_Lib);
+    if (!response.ok) {
+        throw new Error(`API fetch for libraries failed with status: ${response.status}`);
+    }
+    return response.json();
+}
 
-        if (libraries.length > 0) {
-            console.log("Database is empty or needs update, clearing and loading libraries from API");
-            await collectionLibraries.deleteMany({});
+async function loadLibrariesFromApi() {
+    const exists = await collectionLibraries.countDocuments();
+    if (exists === 0) {
+        console.log("No libraries found in database, loading from API...");
+        try {
+            const libraries = await fetchLibrariesFromAPI();
             await collectionLibraries.insertMany(libraries);
-        } else {
-            console.log("Database is up to date, no action needed");
+            console.log("Libraries loaded and inserted into the database.");
+        } catch (error) {
+            console.error("Failed to load libraries from API: ", error);
         }
-    } catch (error) {
-        console.error("An error occurred while loading libraries from API: ", error);
+    } else {
+        console.log("Libraries already exist in the database.");
     }
 }
 
@@ -132,15 +143,19 @@ async function getLibraryById(libraryId: string): Promise<RelatedLibrary | null>
 }
 
 async function connect() {
-    try {
-        await client.connect();
-        await loadLanguagesFromApi(collectionLanguages);
-        await loadLibrariesFromApi(collectionLibraries);   
-        console.log("Connected to database");
-        process.on("SIGINT", exit);
-    } catch (error) {
-        console.error(error);
-    }
+    await client.connect();
+    console.log("Connected to database");
+    await loadLanguagesFromApi();
+    await loadLibrariesFromApi();   
+    process.on("SIGINT", async () => {
+        console.log("SIGINT received. Shutting down.");
+        await exit();
+    });
+    process.on("SIGTERM", async () => {
+        console.log("SIGTERM received. Shutting down.");
+        await exit();
+    });
+    
 }
 
 export { connect, getAllLang, getLanguageById, filteredLanguages, getAllLibraries, getLibraryById, loadLanguagesFromApi, filteredLibraries, loadLibrariesFromApi, collectionLanguages, collectionLibraries };
