@@ -1,6 +1,8 @@
 import express from "express";
 import path from "path";
 import indexRouter from "./routes/index";
+import loginRouter from "./routes/login"
+import logoutRouter from "./routes/logout"
 import languagesRouter from "./routes/languages";
 import librariesRouter from "./routes/libraries";
 import contactRouter from "./routes/contact";
@@ -8,6 +10,10 @@ import { handleError } from "./middleware/handleError";
 import { loggingMiddleware } from "./middleware/handleLogging";
 import { faviconMiddleware } from "./middleware/handleFavicon";
 import { pageNotFoundMiddleware } from "./middleware/handlePageNotFound";
+import { secureMiddleware } from "./middleware/handleSecure";
+import { redirectIfLoggedIn } from "./middleware/handleUserLogedIn";
+import { flashMiddleware } from "./middleware/handleFlashMessage";
+import session from "./config/session";
 import { connect } from "./config/database";
 
 const app = express();
@@ -25,10 +31,16 @@ app.use(express.urlencoded({ extended: true }));
 app.use(loggingMiddleware);
 app.use(faviconMiddleware);
 
+app.use(session);
+
+app.use(flashMiddleware);
+
 app.use("/", indexRouter);
-app.use("/languages", languagesRouter);
-app.use("/libraries", librariesRouter);
+app.use("/login", redirectIfLoggedIn, loginRouter);
+app.use("/languages", secureMiddleware, languagesRouter);
+app.use("/libraries", secureMiddleware, librariesRouter);
 app.use("/contact", contactRouter);
+app.use("/logout", logoutRouter);
 
 app.use(handleError);
 
