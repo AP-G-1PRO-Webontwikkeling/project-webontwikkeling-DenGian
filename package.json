@@ -10,8 +10,11 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/connect-mongodb-session": "^2.4.7",
     "@types/ejs": "^3.1.5",
     "@types/express": "^4.17.21",
+    "@types/express-session": "^1.18.0",
     "@types/node": "^20.11.21",
     "@types/readline-sync": "^1.4.8",
     "flowbite": "^2.3.0",
@@ -25,9 +28,12 @@
   "dependencies": {
     "autoprefixer": "^10.4.19",
     "axios": "^1.6.8",
+    "bcrypt": "^5.1.1",
+    "connect-mongodb-session": "^2.2.0",
     "dotenv": "^16.4.5",
     "ejs": "^3.1.9",
     "express": "^4.19.2",
+    "express-session": "^1.18.0",
     "mongodb": "^6.5.0",
     "postcss": "^8.4.38",
     "readline-sync": "^1.4.10"
