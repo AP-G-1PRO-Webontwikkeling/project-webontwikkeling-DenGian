@@ -1,14 +1,19 @@
 import { Collection, MongoClient } from "mongodb";
 import dotenv from "dotenv";
+import bcrypt from "bcrypt";
 import { ProgrammingLanguage } from "../interfaces/programming-language.interface";
 import { RelatedLibrary } from "../interfaces/related-library.interface";
+import { User } from "../interfaces/user.interface";
 
 dotenv.config();
 
-const client = new MongoClient(process.env.MONGODB_URI ?? "mongodb://localhost:27017");
+const MONGODB_URI = process.env.MONGODB_URI ?? "mongodb://localhost:27017";
+
+const client = new MongoClient(MONGODB_URI);
 
 const collectionLanguages : Collection<ProgrammingLanguage> = client.db("opdracht").collection<ProgrammingLanguage>("languages");
 const collectionLibraries : Collection<RelatedLibrary> = client.db("opdracht").collection<RelatedLibrary>("libraries");
+const collectionUsers : Collection<User> = client.db("opdracht").collection<User>("users");
 
 const API_Lang = process.env.API_LANG_URL ?? "https://raw.githubusercontent.com/DenGian/API-Collection/main/assets/json/programming-languages.json";
 const API_Lib = process.env.API_LIB_URL ?? "https://raw.githubusercontent.com/DenGian/API-Collection/main/assets/json/related-libraries.json";
@@ -23,6 +28,88 @@ async function exit() {
     }
     process.exit(0);
 }
+
+const saltRounds : number = 10;
+
+async function createInitialAdmin() {
+    try {
+        const admin = await collectionUsers.findOne({ role: "ADMIN" });
+        if (admin) {
+            console.log("Admin user already exists. Skipping creation.");
+            return;
+        }
+        const email: string | undefined = process.env.ADMIN_EMAIL;
+        const password: string | undefined = process.env.ADMIN_PASSWORD;
+        if (!email || !password) {
+            throw new Error("ADMIN_EMAIL and ADMIN_PASSWORD must be set in environment variables.");
+        }
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+        await collectionUsers.insertOne({
+            email,
+            password: hashedPassword,
+            role: "ADMIN"
+        });
+        console.log("Initial admin user created successfully.");
+    } catch (error) {
+        console.error("Error creating initial admin user:", error);
+        throw new Error("Failed to create initial admin user.");
+    }
+}
+
+async function createInitialUser() {
+    try {
+        const user = await collectionUsers.findOne({ role: "USER" });
+        if (user) {
+            console.log("User already exists. Skipping creation.");
+            return;
+        }
+        const email: string | undefined = process.env.USER_EMAIL;
+        const password: string | undefined = process.env.USER_PASSWORD;
+        if (!email || !password) {
+            throw new Error("USER_EMAIL and USER_PASSWORD must be set in environment variables.");
+        }
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+        await collectionUsers.insertOne({
+            email,
+            password: hashedPassword,
+            role: "USER"
+        });
+        console.log("Initial user created successfully.");
+    } catch (error) {
+        console.error("Error creating initial user:", error);
+        throw new Error("Failed to create initial user.");
+    }
+}
+
+async function login(email: string, password: string): Promise<User | null> {
+    try {
+        if (email === "" || password === "") {
+            throw new Error("Email and password are required");
+        }
+        if (!isValidEmail(email)) {
+            throw new Error("Invalid email format");
+        }
+        const user: User | null = await collectionUsers.findOne({ email: email });
+        if (user) {
+            const passwordMatch = await bcrypt.compare(password, user.password || "");
+            if (passwordMatch) {
+                return user;
+            } else {
+                throw new Error("Incorrect email or password");
+            }
+        } else {
+            throw new Error("Incorrect email or password");
+        }
+    } catch (error: any) {
+        throw new Error(`Error during login: ${(error as Error).message}`);
+    }
+}
+
+function isValidEmail(email: string): boolean {
+    return /\S+@\S+\.\S+/.test(email);
+}
+
+///////////////////////////
 
 async function fetchLanguagesFromAPI() {
     const response = await fetch(API_Lang);
@@ -53,7 +140,8 @@ async function getAllLang(): Promise<ProgrammingLanguage[]> {
         const data = await collectionLanguages.find({}).toArray();
         return data;
     } catch (error) {
-        throw new Error(`An error occurred while fetching data: ${error}`);
+        console.error("An error occurred while fetching languages:", error);
+        throw new Error("Failed to fetch languages from the database");
     }
 }
 
@@ -117,7 +205,8 @@ async function getAllLibraries(): Promise<RelatedLibrary[]> {
         const data = await collectionLibraries.find({}).toArray();
         return data;
     } catch (error) {
-        throw new Error(`An error occurred while fetching data: ${error}`);
+        console.error("An error occurred while fetching libraries:", error);
+        throw new Error("Failed to fetch libraries from the database");
     }
 }
 
@@ -145,16 +234,18 @@ async function getLibraryById(libraryId: string): Promise<RelatedLibrary | null>
 async function connect() {
     await client.connect();
     console.log("Connected to database");
+    await createInitialAdmin();
+    await createInitialUser();
     await loadLanguagesFromApi();
     await loadLibrariesFromApi();   
     process.on("SIGINT", async () => {
-        console.log("SIGINT received. Shutting down.");
+        console.log("\nSIGINT received. Shutting down...");
         await exit();
     });
     process.on("SIGTERM", async () => {
-        console.log("SIGTERM received. Shutting down.");
+        console.log("\nSIGTERM received. Shutting down...");
         await exit();
     });
 }
 
-export { connect, getAllLang, getLanguageById, filteredLanguages, getAllLibraries, getLibraryById, loadLanguagesFromApi, filteredLibraries, loadLibrariesFromApi, collectionLanguages, collectionLibraries };
+export { MONGODB_URI, connect, getAllLang, getLanguageById, filteredLanguages, getAllLibraries, getLibraryById, loadLanguagesFromApi, filteredLibraries, loadLibrariesFromApi, collectionLanguages, collectionLibraries, login };
