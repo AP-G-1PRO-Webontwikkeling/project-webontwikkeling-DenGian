@@ -27,21 +27,6 @@ router.get("/", async (req: Request, res: Response) => {
     }
 });
 
-router.get("/:libraryId", async (req, res) => {
-    try {
-        const libraryId = req.params.libraryId;
-        const library = await getLibraryById(libraryId);
-        if (!library) {
-            res.status(404).render("404");
-            return;
-        }
-        res.render("detail-library", { library });
-    } catch (error) {
-        console.error("Error:", error);
-        res.status(500).render("error");
-    }
-});
-
 router.post("/", async (req, res) => {
     try {
         const sortField: string = req.query.sortField?.toString() ?? "name";
@@ -57,6 +42,21 @@ router.post("/", async (req, res) => {
             sortField: sortField,
             sortDirection: sortDirection
         });
+    } catch (error) {
+        console.error("Error:", error);
+        res.status(500).render("error");
+    }
+});
+
+router.get("/:libraryId", async (req, res) => {
+    try {
+        const libraryId = req.params.libraryId;
+        const library = await getLibraryById(libraryId);
+        if (!library) {
+            res.status(404).render("404");
+            return;
+        }
+        res.render("detail-library", { library });
     } catch (error) {
         console.error("Error:", error);
         res.status(500).render("error");
