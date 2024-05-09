@@ -136,9 +136,11 @@
                             <div>
                                 <a href="/languages/<%= language.id %>" type="button" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">View</a>
                             </div>
-                            <div>
-                                <a href="/languages/<%= language.id %>/update" type="button" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Update</a>
-                            </div>
+                            <% if (userRole === 'ADMIN') { %>
+                                <div>
+                                    <a href="/languages/<%= language.id %>/update" type="button" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Update</a>
+                                </div>
+                            <% } %>
                         </div>
                     </td>                   
                 </tr>
