@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 import { filteredLanguages, getLanguageById, updateLanguage } from "../config/database";
+import { adminMiddleware } from "../middleware/handleAdminRoutes";
 import { sortLanguages, getDefaultSortDirection } from "../utils/helper-functions";
 import { ProgrammingLanguage } from "../interfaces/programming-language.interface";
 import { UpdateProgrammingLanguage } from "../interfaces/update-programming-language.interface";
@@ -12,6 +13,8 @@ router.get("/", async (req: Request, res: Response) => {
         const sortField: string = req.query.sortField?.toString() ?? "name";
         const sortDirection: string = req.query.sortDirection?.toString() ?? getDefaultSortDirection(sortField);
 
+        const userRole = req.session.user ? req.session.user.role : null;
+
         const filtered = await filteredLanguages(searchTerm);
 
         const sorted = await sortLanguages(filtered, sortField, sortDirection);
@@ -20,7 +23,8 @@ router.get("/", async (req: Request, res: Response) => {
             languages: sorted,
             searchTerm: searchTerm,
             sortField: sortField,
-            sortDirection: sortDirection
+            sortDirection: sortDirection,
+            userRole: userRole
         });
     } catch (error) {
         console.error("Error:", error);
@@ -64,7 +68,7 @@ router.get("/:languageId", async (req, res) => {
     }
 });
 
-router.get("/:languageId/update", async (req, res) => {
+router.get("/:languageId/update", adminMiddleware, async (req, res) => {
     try {
         const languageId: string = req.params.languageId;
         const language: UpdateProgrammingLanguage | null = await getLanguageById(languageId);
@@ -79,7 +83,7 @@ router.get("/:languageId/update", async (req, res) => {
     }
 });
 
-router.post("/:languageId/update", async (req, res) => {
+router.post("/:languageId/update", adminMiddleware, async (req, res) => {
     try {
         const languageId: string = req.params.languageId;
         const { name, birthdate, genre, isActive, description, useCases }: UpdateProgrammingLanguage | any = req.body;
