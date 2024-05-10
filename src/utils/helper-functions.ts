@@ -90,4 +90,10 @@ function compareVersions(versionA: string, versionB: string): number {
     return 0;
 }
 
-export { sortLanguages, getDefaultSortDirection, sortLibraries };
+//////////////////////////
+
+function isValidEmail(email: string): boolean {
+    return /\S+@\S+\.\S+/.test(email);
+}
+
+export { sortLanguages, getDefaultSortDirection, sortLibraries, isValidEmail };
