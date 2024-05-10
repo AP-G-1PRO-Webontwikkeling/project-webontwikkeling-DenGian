@@ -4,6 +4,7 @@ import bcrypt from "bcrypt";
 import { ProgrammingLanguage } from "../interfaces/programming-language.interface";
 import { RelatedLibrary } from "../interfaces/related-library.interface";
 import { User } from "../interfaces/user.interface";
+import { isValidEmail } from "../utils/helper-functions";
 
 dotenv.config();
 
@@ -91,7 +92,7 @@ async function login(email: string, password: string): Promise<User | null> {
         }
         const user: User | null = await collectionUsers.findOne({ email: email });
         if (user) {
-            const passwordMatch = await bcrypt.compare(password, user.password || "");
+            const passwordMatch = await bcrypt.compare(password, user.password ?? "");
             if (passwordMatch) {
                 return user;
             } else {
@@ -105,8 +106,48 @@ async function login(email: string, password: string): Promise<User | null> {
     }
 }
 
-function isValidEmail(email: string): boolean {
-    return /\S+@\S+\.\S+/.test(email);
+async function isEmailRegistered(email: string): Promise<boolean> {
+    try {
+        const existingUser = await collectionUsers.findOne({ email });
+        return !!existingUser;
+    } catch (error) {
+        console.error("Error checking email registration:", error);
+        throw new Error("Failed to check email registration.");
+    }
+}
+
+async function isUsernameRegistered(username: string): Promise<boolean> {
+    try {
+        const existingUser = await collectionUsers.findOne({ username });
+        return !!existingUser;
+    } catch (error) {
+        console.error("Error checking username registration:", error);
+        throw new Error("Failed to check username registration.");
+    }
+}
+
+async function registerUser(email: string, password: string, username: string): Promise<void> {
+    try {
+        const emailExists = await isEmailRegistered(email);
+        if (emailExists) {
+            throw new Error("Email is already registered.");
+        }
+        const usernameExists = await isUsernameRegistered(username);
+        if (usernameExists) {
+            throw new Error("Username is already taken.");
+        }
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+        await collectionUsers.insertOne({
+            email,
+            password: hashedPassword,
+            username,
+            role: "USER"
+        });
+        console.log("User registered successfully.");
+    } catch (error) {
+        console.error("Error registering user:", error);
+        throw new Error("Failed to register user.");
+    }
 }
 
 ///////////////////////////
@@ -248,4 +289,4 @@ async function connect() {
     });
 }
 
-export { MONGODB_URI, connect, getAllLang, getLanguageById, filteredLanguages, getAllLibraries, getLibraryById, loadLanguagesFromApi, filteredLibraries, loadLibrariesFromApi, collectionLanguages, collectionLibraries, login };
+export { MONGODB_URI, connect, getAllLang, getLanguageById, filteredLanguages, getAllLibraries, getLibraryById, loadLanguagesFromApi, filteredLibraries, loadLibrariesFromApi, collectionLanguages, collectionLibraries, login, registerUser, isUsernameRegistered, isEmailRegistered };
