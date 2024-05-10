@@ -3,6 +3,7 @@ import session from "express-session";
 import { FlashMessage } from "../interfaces/flashMessage.interface";
 import { User } from "../interfaces/user.interface";
 import mongoDbSession from "connect-mongodb-session";
+
 const MongoDBStore = mongoDbSession(session);
 
 const mongoStore = new MongoDBStore({
