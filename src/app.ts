@@ -2,7 +2,9 @@ import express from "express";
 import path from "path";
 import indexRouter from "./routes/index";
 import loginRouter from "./routes/login"
+import registerRouter from "./routes/register";
 import logoutRouter from "./routes/logout"
+import tacRouter from "./routes/tac";
 import languagesRouter from "./routes/languages";
 import librariesRouter from "./routes/libraries";
 import contactRouter from "./routes/contact";
@@ -37,10 +39,12 @@ app.use(flashMiddleware);
 
 app.use("/", indexRouter);
 app.use("/login", redirectIfLoggedIn, loginRouter);
+app.use("/register", registerRouter);
 app.use("/languages", secureMiddleware, languagesRouter);
 app.use("/libraries", secureMiddleware, librariesRouter);
 app.use("/contact", contactRouter);
 app.use("/logout", logoutRouter);
+app.use("/tac", tacRouter);
 
 app.use(handleError);
 
