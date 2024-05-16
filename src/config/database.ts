@@ -1,6 +1,7 @@
 import { Collection, MongoClient } from "mongodb";
 import dotenv from "dotenv";
 import bcrypt from "bcrypt";
+import { Sort } from "mongodb";
 import { ProgrammingLanguage } from "../interfaces/programming-language.interface";
 import { RelatedLibrary } from "../interfaces/related-library.interface";
 import { User } from "../interfaces/user.interface";
@@ -199,6 +200,28 @@ async function filteredLanguages(searchTerm: string): Promise<ProgrammingLanguag
     }
 }
 
+async function getAllLangSorted(sortField: string, sortDirection: number): Promise<ProgrammingLanguage[]> {
+    try {
+        if (!['name', 'birthdate', 'useCases', 'genre', 'isActive'].includes(sortField)) {
+            throw new Error(`Invalid sort field: ${sortField}`);
+        }
+
+        if (sortDirection !== 1 && sortDirection !== -1) {
+            throw new Error(`Invalid sort direction: ${sortDirection}. It should be 1 (ascending) or -1 (descending).`);
+        }
+
+        const sortOptions: Sort = {};
+        sortOptions[sortField] = sortDirection;
+
+        const data = await collectionLanguages.find({}).sort(sortOptions).toArray();
+        
+        return data;
+    } catch (error) {
+        console.error("An error occurred while fetching languages:", error);
+        throw new Error("Failed to fetch languages from the database");
+    }
+}
+
 async function getLanguageById(languageId: string): Promise<ProgrammingLanguage | null> {
     try {
         return await collectionLanguages.findOne({ id: languageId }) || null;
@@ -289,4 +312,4 @@ async function connect() {
     });
 }
 
-export { MONGODB_URI, connect, getAllLang, getLanguageById, filteredLanguages, getAllLibraries, getLibraryById, loadLanguagesFromApi, filteredLibraries, loadLibrariesFromApi, collectionLanguages, collectionLibraries, login, registerUser, isUsernameRegistered, isEmailRegistered };
+export { MONGODB_URI, connect, getAllLang, getAllLangSorted, getLanguageById, filteredLanguages, getAllLibraries, getLibraryById, loadLanguagesFromApi, filteredLibraries, loadLibrariesFromApi, collectionLanguages, collectionLibraries, login, registerUser, isUsernameRegistered, isEmailRegistered };
