@@ -29,6 +29,15 @@ const validateFormData = (req: Request, res: Response, next: NextFunction) => {
 
     if(errors.length > 0) {
         req.session.message = { type: "error", message: errors.join("\n") };
+        req.session.formData = {
+            email: email,
+            username: username,
+            password: "",
+            fname: fname,
+            lname: lname,
+            phone: phone,
+            terms: terms,
+        } 
         res.redirect("/register"); 
     } else {
         next();
