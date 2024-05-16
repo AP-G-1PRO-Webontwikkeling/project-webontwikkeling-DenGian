@@ -6,7 +6,8 @@ const router = express.Router();
 
 router.get("/", (req: Request, res: Response) => {
     res.type("text/html");
-    res.render("register");
+    const formData = req.session.formData || {};
+    res.render("register", {formData});
 });
 
 router.post("/", validateFormData, async (req: Request, res: Response) => {
