@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
-import { filteredLanguages, getLanguageById, updateLanguage } from "../config/database";
+import { filteredLanguages, getLanguageById, updateLanguage, getAllLangSorted } from "../config/database";
 import { adminMiddleware } from "../middleware/handleAdminRoutes";
-import { sortLanguages, getDefaultSortDirection } from "../utils/helper-functions";
+import { getDefaultSortDirection, sortLanguages } from "../utils/helper-functions";
 import { ProgrammingLanguage } from "../interfaces/programming-language.interface";
 import { UpdateProgrammingLanguage } from "../interfaces/update-programming-language.interface";
 
@@ -86,7 +86,7 @@ router.get("/:languageId/update", adminMiddleware, async (req, res) => {
 router.post("/:languageId/update", adminMiddleware, async (req, res) => {
     try {
         const languageId: string = req.params.languageId;
-        const { name, birthdate, genre, isActive, description, useCases }: UpdateProgrammingLanguage | any = req.body;
+        const { name, birthdate, genre, isActive, description, useCases }: UpdateProgrammingLanguage = req.body;
 
         const updatedLanguageData: UpdateProgrammingLanguage | any = {
             name,
@@ -94,7 +94,7 @@ router.post("/:languageId/update", adminMiddleware, async (req, res) => {
             genre,
             isActive: isActive === "on",
             description,
-            useCases: useCases ? [].concat(useCases) : []
+            useCases: useCases ? [...useCases] : []
         };
 
         await updateLanguage(languageId, updatedLanguageData);
