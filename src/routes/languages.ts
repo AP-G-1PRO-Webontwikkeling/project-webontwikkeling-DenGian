@@ -11,7 +11,7 @@ router.get("/", async (req: Request, res: Response) => {
     try {
         const searchTerm: string = req.query.searchTerm?.toString() ?? "";
         const sortField: string = req.query.sortField?.toString() ?? "name";
-        const sortDirection: number = req.query.sortDirection === "asc" ? 1 : -1;
+        const sortDirection: number = req.query.sortDirection === "desc" ? -1 : 1;
 
         const userRole: string | null = req.session.user ? req.session.user.role : null;
 
@@ -34,7 +34,7 @@ router.post("/", async (req: Request, res: Response) => {
     try {
         const searchTerm: string = req.query.searchTerm?.toString() ?? "";
         const sortField: string = req.query.sortField?.toString() ?? "name";
-        const sortDirection: number = req.query.sortDirection === "asc" ? 1 : -1;
+        const sortDirection: number = req.query.sortDirection === "desc" ? -1 : 1;
 
         const userRole: string | null = req.session.user ? req.session.user.role : null;
 
