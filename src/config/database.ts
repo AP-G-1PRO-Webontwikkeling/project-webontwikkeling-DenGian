@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import bcrypt from "bcrypt";
 import { Sort } from "mongodb";
 import { ISortProgrammingLanguage } from "../interfaces/sort-languages.interface";
+import { ISortlibraries } from "../interfaces/sort-libraries.interface";
 import { ProgrammingLanguage } from "../interfaces/programming-language.interface";
 import { RelatedLibrary } from "../interfaces/related-library.interface";
 import { User } from "../interfaces/user.interface";
@@ -262,16 +263,25 @@ async function getAllLibraries(): Promise<RelatedLibrary[]> {
     }
 }
 
-async function filteredLibraries(searchTerm: string): Promise<RelatedLibrary[]> {
-    const lowerCaseSearchTerm = searchTerm.toLowerCase().trim();
+async function getFilteredAndSortedLibraries(searchTerm: string, sortField: string, sortDirection: number): Promise<ISortlibraries[]> {
     try {
-        const searchResult = await collectionLibraries.find({
+        const lowerCaseSearchTerm = searchTerm.toLowerCase().trim();
+        let filteredResult = collectionLibraries.find({
             name: { $regex: lowerCaseSearchTerm, $options: "i" }
-        }).toArray();
-        return searchResult;
+        });
+        if (!['name', 'website', 'stars', 'latestVersion'].includes(sortField)) {
+            throw new Error(`Invalid sort field: ${sortField}`);
+        }
+        if (sortDirection !== 1 && sortDirection !== -1) {
+            throw new Error(`Invalid sort direction: ${sortDirection}. It should be 1 (ascending) or -1 (descending).`);
+        }
+        const sortOptions: Sort = {};
+        sortOptions[sortField] = sortDirection;
+        const sortedData = await filteredResult.sort(sortOptions).toArray();
+        return sortedData;
     } catch (error) {
-        console.error("An error occurred while filtering libraries:", error);
-        return [];
+        console.error("An error occurred while fetching and sorting libraries:", error);
+        throw new Error("Failed to fetch and sort libraries from the database");
     }
 }
 
@@ -300,4 +310,4 @@ async function connect() {
     });
 }
 
-export { MONGODB_URI, connect, getAllLang, getLanguageById, getFilteredAndSortedLanguages, getAllLibraries, getLibraryById, loadLanguagesFromApi, filteredLibraries, loadLibrariesFromApi, collectionLanguages, collectionLibraries, login, registerUser, isUsernameRegistered, isEmailRegistered };
+export { MONGODB_URI, connect, getAllLang, getLanguageById, getFilteredAndSortedLanguages, getAllLibraries, getLibraryById, loadLanguagesFromApi, getFilteredAndSortedLibraries, loadLibrariesFromApi, collectionLanguages, collectionLibraries, login, registerUser, isUsernameRegistered, isEmailRegistered };
