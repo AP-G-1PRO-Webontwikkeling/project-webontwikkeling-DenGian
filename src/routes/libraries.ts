@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
-import { filteredLibraries, getLibraryById } from "../config/database";
-import { sortLibraries, getDefaultSortDirection } from "../utils/helper-functions";
+import { getLibraryById, getFilteredAndSortedLibraries } from "../config/database";
 import { RelatedLibrary } from "../interfaces/related-library.interface";
+import { ISortlibraries } from "../interfaces/sort-libraries.interface";
 
 const router = express.Router();
 
@@ -9,17 +9,15 @@ router.get("/", async (req: Request, res: Response) => {
     try {
         const searchTerm: string = req.query.searchTerm?.toString() ?? "";
         const sortField: string = req.query.sortField?.toString() ?? "name";
-        const sortDirection: string = req.query.sortDirection?.toString() ?? getDefaultSortDirection(sortField);
+        const sortDirection: number = req.query.sortDirection === "desc" ? -1 : 1;
 
-        const filtered = await filteredLibraries(searchTerm);
-
-        const sorted = await sortLibraries(filtered, sortField, sortDirection);
+        const sorted: ISortlibraries[] = await getFilteredAndSortedLibraries(searchTerm, sortField, sortDirection);
 
         res.render("libraries", {
             libraries: sorted,
             searchTerm: searchTerm,
             sortField: sortField,
-            sortDirection: sortDirection
+            sortDirection: sortDirection === 1 ? "asc" : "desc"
         });
     } catch (error) {
         console.error("Error:", error);
@@ -27,20 +25,19 @@ router.get("/", async (req: Request, res: Response) => {
     }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", async (req: Request, res: Response) => {
     try {
+        const searchTerm: string = req.body.searchTerm?.toString() ?? "";
         const sortField: string = req.query.sortField?.toString() ?? "name";
-        const sortDirection: string = req.query.sortDirection?.toString() ?? getDefaultSortDirection(sortField);
-        const searchTerm: string = req.body.searchTerm;
+        const sortDirection: number = req.query.sortDirection === "desc" ? -1 : 1;
 
-        const filteredLibrariesResult: RelatedLibrary[] = await filteredLibraries(searchTerm);
-        const sortedLibraries: RelatedLibrary[] = await sortLibraries(filteredLibrariesResult, sortField, sortDirection);
+        const sorted: ISortlibraries[] = await getFilteredAndSortedLibraries(searchTerm, sortField, sortDirection);
 
         res.render("libraries", { 
-            libraries: sortedLibraries,
+            libraries: sorted,
             searchTerm: searchTerm,
             sortField: sortField,
-            sortDirection: sortDirection
+            sortDirection: sortDirection === 1 ? "asc" : "desc"
         });
     } catch (error) {
         console.error("Error:", error);
@@ -48,10 +45,10 @@ router.post("/", async (req, res) => {
     }
 });
 
-router.get("/:libraryId", async (req, res) => {
+router.get("/:libraryId", async (req: Request, res: Response) => {
     try {
-        const libraryId = req.params.libraryId;
-        const library = await getLibraryById(libraryId);
+        const libraryId: string = req.params.libraryId;
+        const library: RelatedLibrary | null = await getLibraryById(libraryId);
         if (!library) {
             res.status(404).render("404");
             return;
