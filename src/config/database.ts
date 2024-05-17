@@ -2,6 +2,7 @@ import { Collection, MongoClient } from "mongodb";
 import dotenv from "dotenv";
 import bcrypt from "bcrypt";
 import { Sort } from "mongodb";
+import { ISortProgrammingLanguage } from "../interfaces/sort-languages.interface";
 import { ProgrammingLanguage } from "../interfaces/programming-language.interface";
 import { RelatedLibrary } from "../interfaces/related-library.interface";
 import { User } from "../interfaces/user.interface";
@@ -187,38 +188,25 @@ async function getAllLang(): Promise<ProgrammingLanguage[]> {
     }
 }
 
-async function filteredLanguages(searchTerm: string): Promise<ProgrammingLanguage[]> {
-    const lowerCaseSearchTerm = searchTerm.toLowerCase().trim();
+async function getFilteredAndSortedLanguages(searchTerm: string, sortField: string, sortDirection: number): Promise<ISortProgrammingLanguage[]> {
     try {
-        const searchResult = await collectionLanguages.find({
+        const lowerCaseSearchTerm = searchTerm.toLowerCase().trim();
+        let filteredResult = collectionLanguages.find({
             name: { $regex: lowerCaseSearchTerm, $options: "i" }
-        }).toArray();
-        return searchResult;
-    } catch (error) {
-        console.error("An error occurred while filtering languages:", error);
-        return [];
-    }
-}
-
-async function getAllLangSorted(sortField: string, sortDirection: number): Promise<ProgrammingLanguage[]> {
-    try {
-        if (!['name', 'birthdate', 'useCases', 'genre', 'isActive'].includes(sortField)) {
+        });
+        if (!['name', 'birthdate', 'genre', 'isActive'].includes(sortField)) {
             throw new Error(`Invalid sort field: ${sortField}`);
         }
-
         if (sortDirection !== 1 && sortDirection !== -1) {
             throw new Error(`Invalid sort direction: ${sortDirection}. It should be 1 (ascending) or -1 (descending).`);
         }
-
         const sortOptions: Sort = {};
         sortOptions[sortField] = sortDirection;
-
-        const data = await collectionLanguages.find({}).sort(sortOptions).toArray();
-        
-        return data;
+        const sortedData = await filteredResult.sort(sortOptions).toArray();
+        return sortedData;
     } catch (error) {
-        console.error("An error occurred while fetching languages:", error);
-        throw new Error("Failed to fetch languages from the database");
+        console.error("An error occurred while fetching and sorting languages:", error);
+        throw new Error("Failed to fetch and sort languages from the database");
     }
 }
 
@@ -312,4 +300,4 @@ async function connect() {
     });
 }
 
-export { MONGODB_URI, connect, getAllLang, getAllLangSorted, getLanguageById, filteredLanguages, getAllLibraries, getLibraryById, loadLanguagesFromApi, filteredLibraries, loadLibrariesFromApi, collectionLanguages, collectionLibraries, login, registerUser, isUsernameRegistered, isEmailRegistered };
+export { MONGODB_URI, connect, getAllLang, getLanguageById, getFilteredAndSortedLanguages, getAllLibraries, getLibraryById, loadLanguagesFromApi, filteredLibraries, loadLibrariesFromApi, collectionLanguages, collectionLibraries, login, registerUser, isUsernameRegistered, isEmailRegistered };
