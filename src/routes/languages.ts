@@ -1,9 +1,9 @@
 import express, { Request, Response } from "express";
-import { filteredLanguages, getLanguageById, updateLanguage, getAllLangSorted } from "../config/database";
+import { getLanguageById, updateLanguage, getFilteredAndSortedLanguages } from "../config/database";
 import { adminMiddleware } from "../middleware/handleAdminRoutes";
-import { getDefaultSortDirection, sortLanguages } from "../utils/helper-functions";
-import { ProgrammingLanguage } from "../interfaces/programming-language.interface";
 import { UpdateProgrammingLanguage } from "../interfaces/update-programming-language.interface";
+import { ISortProgrammingLanguage } from "../interfaces/sort-languages.interface";
+import { ProgrammingLanguage } from "../interfaces/programming-language.interface";
 
 const router = express.Router();
 
@@ -11,19 +11,17 @@ router.get("/", async (req: Request, res: Response) => {
     try {
         const searchTerm: string = req.query.searchTerm?.toString() ?? "";
         const sortField: string = req.query.sortField?.toString() ?? "name";
-        const sortDirection: string = req.query.sortDirection?.toString() ?? getDefaultSortDirection(sortField);
+        const sortDirection: number = req.query.sortDirection === "asc" ? 1 : -1;
 
-        const userRole = req.session.user ? req.session.user.role : null;
+        const userRole: string | null = req.session.user ? req.session.user.role : null;
 
-        const filtered = await filteredLanguages(searchTerm);
-
-        const sorted = await sortLanguages(filtered, sortField, sortDirection);
+        const sorted: ISortProgrammingLanguage[] = await getFilteredAndSortedLanguages(searchTerm, sortField, sortDirection);
 
         res.render("languages", {
             languages: sorted,
             searchTerm: searchTerm,
             sortField: sortField,
-            sortDirection: sortDirection,
+            sortDirection: sortDirection === 1 ? "asc" : "desc",
             userRole: userRole
         });
     } catch (error) {
@@ -32,20 +30,22 @@ router.get("/", async (req: Request, res: Response) => {
     }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", async (req: Request, res: Response) => {
     try {
+        const searchTerm: string = req.query.searchTerm?.toString() ?? "";
         const sortField: string = req.query.sortField?.toString() ?? "name";
-        const sortDirection: string = req.query.sortDirection?.toString() ?? getDefaultSortDirection(sortField);
-        const searchTerm: string = req.body.searchTerm;
+        const sortDirection: number = req.query.sortDirection === "asc" ? 1 : -1;
 
-        const filteredLanguagesResult: ProgrammingLanguage[] = await filteredLanguages(searchTerm);
-        const sortedLanguages: ProgrammingLanguage[] = await sortLanguages(filteredLanguagesResult, sortField, sortDirection);
+        const userRole: string | null = req.session.user ? req.session.user.role : null;
+
+        const sorted: ISortProgrammingLanguage[] = await getFilteredAndSortedLanguages(searchTerm, sortField, sortDirection);
 
         res.render("languages", { 
-            languages: sortedLanguages,
+            languages: sorted,
             searchTerm: searchTerm,
             sortField: sortField,
-            sortDirection: sortDirection
+            sortDirection: sortDirection === 1 ? "asc" : "desc",
+            userRole: userRole
         });
     } catch (error) {
         console.error("Error:", error);
@@ -53,10 +53,10 @@ router.post("/", async (req, res) => {
     }
 });
 
-router.get("/:languageId", async (req, res) => {
+router.get("/:languageId", async (req: Request, res: Response) => {
     try {
-        const languageId = req.params.languageId;
-        const language = await getLanguageById(languageId);
+        const languageId: string = req.params.languageId;
+        const language: ProgrammingLanguage | null = await getLanguageById(languageId);
         if (!language) {
             res.status(404).render("404");
             return;
@@ -68,11 +68,10 @@ router.get("/:languageId", async (req, res) => {
     }
 });
 
-router.get("/:languageId/update", adminMiddleware, async (req, res) => {
+router.get("/:languageId/update", adminMiddleware, async (req: Request, res: Response) => {
     try {
         const languageId: string = req.params.languageId;
         const language: UpdateProgrammingLanguage | null = await getLanguageById(languageId);
-        
         if (!language) {
             return res.status(404).render("404");
         }
@@ -83,7 +82,7 @@ router.get("/:languageId/update", adminMiddleware, async (req, res) => {
     }
 });
 
-router.post("/:languageId/update", adminMiddleware, async (req, res) => {
+router.post("/:languageId/update", adminMiddleware, async (req: Request, res: Response) => {
     try {
         const languageId: string = req.params.languageId;
         const { name, birthdate, genre, isActive, description, useCases }: UpdateProgrammingLanguage = req.body;
