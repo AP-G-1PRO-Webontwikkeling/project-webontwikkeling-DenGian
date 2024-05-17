@@ -277,7 +277,24 @@ async function getFilteredAndSortedLibraries(searchTerm: string, sortField: stri
         }
         const sortOptions: Sort = {};
         sortOptions[sortField] = sortDirection;
-        const sortedData = await filteredResult.sort(sortOptions).toArray();
+        let sortedData: ISortlibraries[];
+        if (sortField === 'latestVersion') {
+            const unsortedData = await filteredResult.toArray();
+            sortedData = unsortedData.sort((a, b) => {
+                const versionA = a.latestVersion.split('.').map(Number);
+                const versionB = b.latestVersion.split('.').map(Number);
+                for (let i = 0; i < Math.max(versionA.length, versionB.length); i++) {
+                    const numA = versionA[i] || 0;
+                    const numB = versionB[i] || 0;
+                    if (numA !== numB) {
+                        return (numA - numB) * sortDirection;
+                    }
+                }
+                return 0;
+            });
+        } else {
+            sortedData = await filteredResult.sort(sortOptions).toArray();
+        }
         return sortedData;
     } catch (error) {
         console.error("An error occurred while fetching and sorting libraries:", error);
