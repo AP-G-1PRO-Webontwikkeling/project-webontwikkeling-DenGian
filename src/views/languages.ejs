@@ -38,8 +38,8 @@
                 </th>
                 <th scope="col" class="px-6 py-3">
                     <div class="flex items-center">
-                        <a href="?searchTerm=<%= searchTerm %>&sortField=birthDate&sortDirection=<%= sortField === 'birthDate' && sortDirection === 'asc' ? 'desc' : 'asc' %>">Birthdate</a>
-                        <% if(sortField === 'birthDate') { %>
+                        <a href="?searchTerm=<%= searchTerm %>&sortField=birthdate&sortDirection=<%= sortField === 'birthdate' && sortDirection === 'asc' ? 'desc' : 'asc' %>">birthdate</a>
+                        <% if(sortField === 'birthdate') { %>
                             <% if(sortDirection === 'asc') { %>
                                 <svg class="w-4 h-4 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
                                     <path d="M6 14l6-6 6 6" />
@@ -52,22 +52,7 @@
                         <% } %>
                     </div>
                 </th>
-                <th scope="col" class="px-6 py-3">
-                    <div class="flex items-center">
-                        <a href="?searchTerm=<%= searchTerm %>&sortField=useCases&sortDirection=<%= sortField === 'useCases' && sortDirection === 'asc' ? 'desc' : 'asc' %>">Use Cases</a>
-                        <% if(sortField === 'useCases') { %>
-                            <% if(sortDirection === 'asc') { %>
-                                <svg class="w-4 h-4 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M6 14l6-6 6 6" />
-                                </svg>
-                            <% } else { %>
-                                <svg class="w-4 h-4 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M6 6l6 6 6-6" />
-                                </svg>
-                            <% } %>
-                        <% } %>
-                    </div>
-                </th>
+                <th scope="col" class="px-6 py-3 text-center">use cases</th>
                 <th scope="col" class="px-6 py-3">
                     <div class="flex items-center">
                         <a href="?searchTerm=<%= searchTerm %>&sortField=genre&sortDirection=<%= sortField === 'genre' && sortDirection === 'asc' ? 'desc' : 'asc' %>">Genre</a>
@@ -114,7 +99,7 @@
                         </div>  
                     </th>
                     <td class="px-6 py-4"><%= language.birthdate %></td>
-                    <td class="px-6 py-4">
+                    <td class="px-6 py-4 text-center">
                         <% language.useCases.forEach(useCase => { %>
                             <div><%= useCase %></div>
                         <% }); %>
