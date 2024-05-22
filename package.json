@@ -2,7 +2,7 @@
   "name": "project-webontwikkeling-dengian",
   "version": "1.0.0",
   "description": "This API provides information about various programming languages along with related libraries. It offers details such as the name, description, age, birth date, genre, and related libraries for each programming language.",
-  "main": "app.ts",
+  "main": "src/app.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon src/app.ts"
